@@ -1,0 +1,25 @@
+services:
+  lumera-postgres:
+    image: postgres:15-alpine
+    container_name: lumera-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: rootpassword
+      POSTGRES_DB: lumera_db
+    volumes:
+      - lumera-db-data:/var/lib/postgresql/data
+
+  lumera-rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: lumera-rabbitmq
+    ports:
+      - "5672:5672"   # Puerto interno de comunicación AMQP
+      - "15672:15672" # Puerto para el panel visual en el navegador
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+volumes:
+  lumera-db-data:

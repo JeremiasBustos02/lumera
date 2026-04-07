@@ -1,0 +1,23 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        # Todo lo que empiece con /auth/ va al auth-service
+        - id: auth-service-route
+          uri: http://localhost:8081
+          predicates:
+            - Path=/auth/**
+
+        # Todo lo que empiece con /api/ va al clinic-core
+        - id: clinic-core-route
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/**
+
+jwt:
+  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
