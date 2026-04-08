@@ -39,10 +39,11 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
-
         try {
             jwtUtil.validateToken(authHeader);
         } catch (Exception e) {
+            System.out.println("Error validando token: " + e.getMessage());
+
             exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
             return exchange.getResponse().setComplete();
         }
