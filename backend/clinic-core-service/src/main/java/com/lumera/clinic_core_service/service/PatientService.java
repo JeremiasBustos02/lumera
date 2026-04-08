@@ -30,14 +30,7 @@ public class PatientService {
 
         Patient savedPatient = patientRepository.save(patient);
 
-        return new PatientResponse(
-                savedPatient.getId(),
-                savedPatient.getFirstName(),
-                savedPatient.getLastName(),
-                savedPatient.getDni(),
-                savedPatient.getPhone(),
-                savedPatient.getHealthInsurance()
-        );
+        return mapToResponse(patientRepository.save(patient));
     }
 
     public List<PatientResponse> getAllPatients() {
@@ -57,14 +50,7 @@ public class PatientService {
         Patient patient = patientRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Paciente no encontrado"));
 
-        return new PatientResponse(
-                patient.getId(),
-                patient.getFirstName(),
-                patient.getLastName(),
-                patient.getDni(),
-                patient.getPhone(),
-                patient.getHealthInsurance()
-        );
+        return mapToResponse(patientRepository.save(patient));
     }
 
     public PatientResponse updatePatient(Long id, PatientRequest request) {
@@ -78,14 +64,7 @@ public class PatientService {
 
         Patient updatedPatient = patientRepository.save(patient);
 
-        return new PatientResponse(
-                updatedPatient.getId(),
-                updatedPatient.getFirstName(),
-                updatedPatient.getLastName(),
-                updatedPatient.getDni(),
-                updatedPatient.getPhone(),
-                updatedPatient.getHealthInsurance()
-        );
+        return mapToResponse(patientRepository.save(patient));
     }
 
     public void deletePatientById(Long id) {
@@ -93,5 +72,16 @@ public class PatientService {
             throw new IllegalArgumentException("Paciente no encontrado");
         }
         patientRepository.deleteById(id);
+    }
+
+    private PatientResponse mapToResponse(Patient patient) {
+        return new PatientResponse(
+                patient.getId(),
+                patient.getFirstName(),
+                patient.getLastName(),
+                patient.getDni(),
+                patient.getPhone(),
+                patient.getHealthInsurance()
+        );
     }
 }
