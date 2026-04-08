@@ -52,4 +52,46 @@ public class PatientService {
                 ))
                 .toList();
     }
+
+    public PatientResponse getPatientById(Long id) {
+        Patient patient = patientRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Paciente no encontrado"));
+
+        return new PatientResponse(
+                patient.getId(),
+                patient.getFirstName(),
+                patient.getLastName(),
+                patient.getDni(),
+                patient.getPhone(),
+                patient.getHealthInsurance()
+        );
+    }
+
+    public PatientResponse updatePatient(Long id, PatientRequest request) {
+        Patient patient = patientRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Paciente no encontrado"));
+
+        patient.setFirstName(request.firstName());
+        patient.setLastName(request.lastName());
+        patient.setPhone(request.phone());
+        patient.setHealthInsurance(request.healthInsurance());
+
+        Patient updatedPatient = patientRepository.save(patient);
+
+        return new PatientResponse(
+                updatedPatient.getId(),
+                updatedPatient.getFirstName(),
+                updatedPatient.getLastName(),
+                updatedPatient.getDni(),
+                updatedPatient.getPhone(),
+                updatedPatient.getHealthInsurance()
+        );
+    }
+
+    public void deletePatientById(Long id) {
+        if (!patientRepository.existsById(id)) {
+            throw new IllegalArgumentException("Paciente no encontrado");
+        }
+        patientRepository.deleteById(id);
+    }
 }
