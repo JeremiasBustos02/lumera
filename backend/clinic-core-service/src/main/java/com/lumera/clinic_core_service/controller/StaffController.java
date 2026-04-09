@@ -24,6 +24,11 @@ public class StaffController {
         return new ResponseEntity<>(staffService.createStaff(request), HttpStatus.CREATED);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<StaffResponse> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(staffService.getStaffById(id));
+    }
+
     @GetMapping
     public ResponseEntity<List<StaffResponse>> getStaff(@RequestParam(required = false) StaffRole role) {
         if (role != null) {
@@ -34,7 +39,7 @@ public class StaffController {
 
     @PutMapping("/{id}")
     public ResponseEntity<StaffResponse> update(@PathVariable Long id, @Valid @RequestBody StaffRequest request) {
-        return ResponseEntity.ok(staffService.updateStaff(request));
+        return ResponseEntity.ok(staffService.updateStaff(id, request));
     }
 
     @DeleteMapping("/{id}")

@@ -45,6 +45,13 @@ public class StaffService {
                 .toList();
     }
 
+    public StaffResponse getStaffById(Long id) {
+        Staff staff = staffRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Personal no encontrado"));
+
+        return mapToResponse(staff);
+    }
+
     public List<StaffResponse> getAllStaff() {
         return staffRepository.findAll().stream()
                 .map(this::mapToResponse)
